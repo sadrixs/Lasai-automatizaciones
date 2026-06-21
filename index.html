@@ -14,7 +14,7 @@
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { background: #070411; display: flex; align-items: center; justify-content: center; min-height: 100vh; font-family: -apple-system, BlinkMacSystemFont, sans-serif; }
-    #__bundler_loading { position: fixed; bottom: 20px; right: 20px; font: 13px/1.4 -apple-system, BlinkMacSystemFont, sans-serif; color: #666; background: #fff; padding: 8px 14px; border-radius: 8px; box-shadow: 0 1px 4px rgba(0,0,0,0.12); z-index: 10000; }
+    #__bundler_loading { display: none; }
     #__bundler_placeholder { color: #999; font-size: 14px; }
   </style>
   <noscript>
@@ -132,6 +132,9 @@ document.addEventListener('DOMContentLoaded', async function() {
     // createElement so they execute, awaiting onload for src scripts to
     // preserve ordering (React before ReactDOM before Babel before text/babel).
     const doc = new DOMParser().parseFromString(template, 'text/html');
+    const __fadeStyle = doc.createElement('style');
+    __fadeStyle.textContent = 'html{animation:__bundler_fadein 0.45s ease}@keyframes __bundler_fadein{from{opacity:0}to{opacity:1}}';
+    doc.head.appendChild(__fadeStyle);
     document.documentElement.replaceWith(doc.documentElement);
     const dead = Array.from(document.scripts);
     for (const old of dead) {
